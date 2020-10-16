@@ -1,0 +1,118 @@
+<html>
+    <head>
+        <style>
+            /* ID container div to hold the images as the background. */
+            #container {
+                height: 500px;
+                width: 500px;
+                background: url('3g9wzo.png') center no-repeat;
+                color: white;
+                margin: 0 auto;
+            }
+            /* ID text div to serve as placeholder for JS to insert text. */
+            #text {
+                text-align: left;
+                margin: 450px 0 0 35%;
+                font: 30px white;                 
+                display: inline-block;                     
+                height: 500px;
+                vertical-align: bottom;        
+            }
+            /* class menu div to hold font buttons */
+            .menu {
+                width: 500px;
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                margin: 0 auto;
+            }
+            /* Style for each of the div buttons to make them look like buttons */
+            .menu div {
+                background-image: linear-gradient( coral, darkred);
+                padding: 2px 5px;
+                border-radius: 3px;
+                color: white;
+            }
+        </style>        
+    </head>
+    <body>
+        <!-- This is the placeholder for the main image -->
+        <div id="container"  onclick="swapnstart()">
+            <!-- This is the placeholder that will be targeted by JS and have text inserted into -->
+            <div id="text"></div>        
+        </div>
+
+
+        <!-- This is the menu of buttons to change the font. Notice the onClick event set to 
+            trigger the changefont() function and passes the font name in as an argument. -->
+        <div class="menu">
+            <div onclick="changefont('Arial')">Arial</div>
+            <div onclick="changefont('Times New Roman')">Times New Roman</div>
+            <div onclick="changefont('Courier')">Courier</div>
+        </div>
+
+
+
+        <script>
+            //Target data to be inserted into placeholder.
+            let statement = "Let's Rocket!!";
+
+            // Assign the text placeholder object to 'bod' by using it's ID.
+            let bod = document.getElementById('text');
+            // counter for the coming function to process the text.
+            let i = 0;
+            // variable which will hold the setInterval function. 
+            let intv = 0;
+
+
+            //container.onclick triggers this, which changes the font-family style property 
+            // for the entire body and the text placeholder.
+            function changefont (fontname) 
+            {   
+                // Body is selected and it's style, fontFamily, is set to the font passed in as 
+                // an argument. 
+                document.getElementsByTagName('body')[0].style.fontFamily = fontname;
+                // Because the text usedin the typing effect was added after the browser generated the page
+                // we have to select it separately to change its value. 
+                // HINT: ASK ME 'nathan' ABOUT 'JQuery'.
+                document.getElementById('text').style.fontFamily = fontname;
+            }
+
+            //changes initial image with animated gif and initializes interval for typing effect.
+            function swapnstart()
+            {
+                // grabs the image container and swaps the background style to change the image.
+                document.getElementById('container').style.background = "url('rocket.gif')";
+
+                // Assigns the setInterval object to the intv variable so it can be accessed and cleared later.
+                // Note: setInterval does not need to assigned to a variable to function, but does if 
+                // you wish to clear it later.                 
+                intv = setInterval(() => addLetter(statement), 150);
+
+            }
+            
+            // called by setInterval, adds one letter at a time to bod which is id=text.
+            // setInterval uses an arrow function to pass the statement into the function. 
+            // setInterval cannot directly pass arguments, so we use an anonymous function to pass
+            // the argument. 
+            function addLetter(text)
+            {   
+                // Adds one character to bod. i is equal to the current value of i, which serves as
+                // the counter variable. 
+                bod.innerHTML = bod.innerHTML + text[i]; 
+                // just like a loop, we increment the counter variable.
+                i++;
+
+                // Each time setInterval calls this, just like a loop, this condition is tested.
+                // When the result is true, clearInterval() terminates the setInterval object intv.
+                // Again, this is very much like a WHILE or FOR loop.
+                if(i === text.length)
+                { 
+                    clearInterval(intv); 
+                }
+            }
+
+
+        </script>
+    </body>
+</html>
